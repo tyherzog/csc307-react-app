@@ -8,16 +8,21 @@ function MyApp() {
   const [characters, setCharacters] = useState([]);
 
   function removeOneCharacter (index) {
-    const updated = characters.filter((character, i) => {
-        return i !== index
-    });
-    setCharacters(updated);
+    const char_id = characters[index].id;
+    console.log(char_id);
+    const response = axios.delete('http://localhost:5000/users/' + char_id);
+    if (response !== 404) {
+      const updated = characters.filter((character, i) => {
+          return i !== index
+      });
+      setCharacters(updated);
+    }
   }
   
   function updateList(person) {
     makePostCall(person).then ( result => {
-      if (result && result.status === 200)
-        setCharacters([...characters, person] );
+      if (result && result.status === 201)
+        setCharacters([...characters, result.data] );
     });
   }
   

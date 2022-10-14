@@ -7,11 +7,11 @@ import axios from 'axios';
 function MyApp() {
   const [characters, setCharacters] = useState([]);
 
-  function removeOneCharacter (index) {
+  async function removeOneCharacter (index) {
     const char_id = characters[index].id;
     console.log(char_id);
-    const response = axios.delete('http://localhost:5000/users/' + char_id);
-    if (response !== 404) {
+    const response = await axios.delete('http://localhost:5000/users/' + char_id);
+    if (response.status === 204) {
       const updated = characters.filter((character, i) => {
           return i !== index
       });
